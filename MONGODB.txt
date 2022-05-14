@@ -1,0 +1,24 @@
+MongoDB Atlas is a cloud-based NoSQL database service developed by MongoDB Inc. It was developed to offer 
+a flexible, scalable, and on-demand platform to eliminate the need for costly infrastructure,
+ configurations, and maintenance.
+
+Replica Sets
+A MongoDB replica set is a group of one or more servers containing the exact copy of the data. 
+While it’s technically possible to have one or two nodes, the recommended minimum is three. 
+A primary node is responsible for providing your application’s read and write operations, 
+while two secondary nodes contain a replica of the data.
+
+
+There are two different distributed configurations of MongoDB. The first is a “replica set”, 
+where several servers carry the exact same data, to protect against failure. 
+The second is a “sharded cluster”, where several servers each carry only a fragment of the whole data, 
+to achieve higher performance and carry larger data sets
+
+
+JSON 
+- mongoimport
+- mongoexport   --uri "<Atlas Cluster URI>"  exports data in JSON
+
+BSON
+- mongorestore
+- mongodump     --uri "<Atlas Cluster URI>"  exports data in BSON

@@ -1,0 +1,102 @@
+$match - is to filter document with certain query
+$group - groups documents by certain criteria
+$project - filters fields in the documents
+$sort - sorts objects
+$count - counts number of objects or documents
+$limit - limts the number of documents
+$skips - skips certain amounts of documents
+$out - writes results of aggregation into another collection
+$unwind - perform aggregation operation on the fields that contains arrays,
+	it take document array and then splits it into several documents ,
+	each document contains single row value instead of array
+
+*Expression refers to the name of the field in input documents
+"$<fieldName>"
+
+.examples
+{$group: {_id:"$age"}}
+{$group:{_id:"$company.location.country"}}
+{$group:{_id:"$name",total:{$sum:"$price"}}}
+
+
+$match Stage
+
+.match specific documents using query
+
+.example
+{$match:{city:"New York"}}
+{$match:{age:{$gt:25}}
+{$match:{$and:[{gender:"female"},{age:{$gt:25}}]]}
+
+db.collection_name.aggregate([ {$match:{ tages:{$size:3} }])
+
+
+{$group:{_id:<expression>}}  _id field is mandatory in group stage to produce new document with id field and age with distinct values
+
+
+$count stage
+
+{$count: "total}
+
+
+$sort stage
+db.collection_name.aggreagate([ {$group:{_id:"$age}}, {sort:{_id:1}}]}
+db.collection_name.aggregate([ {$group:{_id:{eyeColor:"$eyeColor", favouriteFood:"$favouriteFood"}}, {$sort:{"_id.eyeColor":1, "id.favouriteFood":-1"}}]}
+
+
+$project stage
+~ includes, Excludes or adds new field(s)
+{$project:{ <field1>:1(includes),<field2>:0(exculdes),<newField>:<expression>}}
+
+example
+{$project : {name:1,"company.title":1}} only includes spectifed and also includes id
+{$project:{_id:0, name:1, age:1}} will not include id
+{$project: {eyeColor:0, age:0}} except those, all will be included
+{$project: {name:1, newage:"$age"}} new age field name
+
+
+$limit stage
+~outputs first N documents from the input
+{$limit: number}
+{$limit:100}
+
+$unwind
+
+{$unwind: "$tags"} input => {tag:["tag1","tag2","tag3"] output => {tag:"tag1"}  {tag:"tag2"}  {tag:"tag3"}
+
+db.collection_name.aggregate([ {$unwind:"$tags"}, {$project:{name:1, index:1, tags:1}}])
+db.collection_name.aggregate([ {$unwind:"$tags"}, {$group:{_id:"$tags"}}])
+
+
+ACCUMULATORS  means perform on entire document
+$sum
+$avg
+$max
+$min
+all are used in group stage
+
+syntax
+{$sum:"$quantity"}
+{$avg:"$age"}
+{$max:"$spentMoney"}
+
+db.collection_name.aggregate([ {$group:{ _id:"$age",count:{$sum:1}}}]) 
+db.collection_name.aggregate([ {$unwind:"$tags"}, {$group:{_id:"$tags",count:{$sum:1}}}])
+
+db.collection_name.aggregate([ {$group:{ _id:"$favoriteFruit",avgAge:{$avg:"$age"}}}])
+
+
+Unary Operators means perform on each document, unary operators perform only in project stage
+$type
+$or
+$lt
+$gt
+$and
+$multiply
+
+
+$out stage  - writes resulting documents to the mongodb collection
+{$out : "newCollection"}  must be the last stage ine aggregation pipeline
+
+db.collection_name.aggregate([ {$group:{_id:{eyeColor:"$eyeColor", favouriteFood:"$favouriteFood"}}, {$out:"collectionName"}]}
+
