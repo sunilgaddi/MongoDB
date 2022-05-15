@@ -1,0 +1,59 @@
+Create New DB or Switch to Existing DB
+>use DB_Name
+
+Listing all the Databases
+>show dbs
+
+Check the DB currently in use
+>db
+
+Drop Database
+>db.dropDatabase()
+
+Create Collection
+>db.createCollection(Name,Options)
+
+Creating a Capped Collection
+> db.createCollection("Login",{capped:true,max:1,size:200})
+
+Drop Collection
+>db.geekFlareCollection.drop()
+
+Insert Document into Collection
+>collectionName.insert({document} or [{document},{document},....])
+>collectionName.insertOne({document})
+>collectionName.insertMany([{document1},{document2},{ document3}….{ documentn}])
+
+Retrieve Document from a Collection
+>db.geekFlareCollection.find()
+>collectionName.find({ condition })
+>collectionName.findOne()
+>collectionName.find().pretty()
+
+Update Document in a Collection
+>collectionName.update({KeyToUpdate},{Set Command}) updates only one, db.geekFlareCollection.update({"product" : "bottles"},{$set : {"Qty": 10}}  )
+>collectionName.updateOne({SingleKeyToUpdate},{Set Command}) updates only one
+>collectionName.updateMany({SingleKeyToUpdate},{Set Command}) updates all 
+
+Delete Document of a Collection
+>db.geekFlareCollection.deleteOne({"product" : "bread"})
+>db.geekFlareCollection.deleteMany({"product" : "bottles"})
+
+Retrieve Distinct
+>db.geekFlareCollection.distinct("product")
+
+Rename collection
+>db.geekFlareCollection.renameCollection('geekFlareCol')
+
+
+Create Index on Document
+>db.geekFlareCollection.createIndex({"product" : 1})
+
+Show Index on Document
+>db.geekFlareCollection.getIndexes()
+
+Remove Index from Document
+>db.geekFlareCollection.dropIndex({"product" : 1})
+
+Remove All Indexs from Document
+>db.collection_name.dropIndexed()
